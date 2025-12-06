@@ -4,10 +4,12 @@ Portal de encuestas presidenciales en tiempo real para las Elecciones Generales 
 
 ## Características Principales
 
-### Sistema de Semáforo Judicial
+### Sistema de Semáforo Judicial Dual
+El sistema evalúa tanto al candidato como al partido político, proporcionando una visión completa del riesgo legal.
+
 - **🟢 Verde**: Sin investigaciones penales activas
 - **🟡 Amarillo**: Investigaciones en fase fiscal o administrativa
-- **🟢 Rojo**: Investigaciones penales graves o condenas vigentes
+- **🔴 Rojo**: Investigaciones penales graves o condenas vigentes
 
 ### Funcionalidades
 - Votación en tiempo real con actualización instantánea
@@ -50,12 +52,15 @@ Portal de encuestas presidenciales en tiempo real para las Elecciones Generales 
 - Venceremos - Ronald Atencio
 - Frente Trabajadores - Napoleón Becerra
 
-### Partidos Principales (10+)
+### Partidos Principales (15+)
 - Fuerza Popular - Keiko Fujimori
 - Renovación Popular - Rafael López Aliaga
 - APP - César Acuña
-- Avanza País - Phillip Butters
+- Avanza País - Candidato en definición (Phillip Butters renunció el 05/12/2025)
 - Progresemos - Hernando de Soto
+- Acción Popular - En primarias internas (6 precandidatos)
+- Somos Perú - George Forsyth
+- Podemos Perú - Daniel Urresti
 - Y más...
 
 ## Cómo Usar

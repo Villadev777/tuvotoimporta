@@ -10,7 +10,10 @@ export async function obtenerCandidatos(): Promise<CandidatoConPartido[]> {
       .from('candidatos')
       .select(`
         *,
-        partido:partidos_politicos(*),
+        partido:partidos_politicos(
+          *,
+          investigaciones_partidarias:partidos_politicos_investigaciones(*)
+        ),
         investigaciones:investigaciones_judiciales(*)
       `)
       .eq('activo', true)
@@ -26,7 +29,10 @@ export async function obtenerCandidatoPorId(id: string): Promise<CandidatoConPar
     .from('candidatos')
     .select(`
       *,
-      partido:partidos_politicos(*),
+      partido:partidos_politicos(
+        *,
+        investigaciones_partidarias:partidos_politicos_investigaciones(*)
+      ),
       investigaciones:investigaciones_judiciales(*)
     `)
     .eq('id', id)

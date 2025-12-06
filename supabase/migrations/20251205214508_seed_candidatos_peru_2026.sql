@@ -1,4 +1,11 @@
 /*
+  ⚠️ ARCHIVO HISTÓRICO - Datos actualizados en migraciones posteriores
+
+  Los datos iniciales en este archivo han sido actualizados por migraciones más recientes:
+  - 20251205231405_update_cesar_acuna_app_amarillo.sql (César Acuña y APP a AMARILLO)
+  - 20251206185159_actualizar_partidos_candidatos_2026.sql (Phillip Butters inactivo, Keiko Fujimori a ROJO, nuevos candidatos)
+  - add_estado_candidatura_partidos.sql (Estados de candidatura para partidos)
+
   # Datos Iniciales - Candidatos Presidenciales Perú 2026
 
   ## Resumen

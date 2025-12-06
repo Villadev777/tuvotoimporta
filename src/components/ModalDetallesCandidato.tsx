@@ -78,9 +78,15 @@ export function ModalDetallesCandidato({ candidato, onCerrar }: ModalDetallesCan
                 <p className="font-medium text-gray-900 dark:text-white mb-1 text-sm sm:text-base">{candidato.partido.nombre}</p>
                 <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">{candidato.partido.descripcion}</p>
                 {candidato.partido.ideologia && (
-                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
                     Ideología: <span className="font-medium">{candidato.partido.ideologia}</span>
                   </p>
+                )}
+                {candidato.partido.estado_semaforo_partidario && (
+                  <div className="mb-2">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Semáforo Partidario:</p>
+                    <SemaforoIndicador estado={candidato.partido.estado_semaforo_partidario} tamaño="pequeño" />
+                  </div>
                 )}
                 {candidato.partido.url_oficial && (
                   <a
@@ -117,11 +123,54 @@ export function ModalDetallesCandidato({ candidato, onCerrar }: ModalDetallesCan
             </div>
           )}
 
+          {candidato.partido?.investigaciones_partidarias && candidato.partido.investigaciones_partidarias.length > 0 && (
+            <div>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                <Scale size={18} className="sm:w-5 sm:h-5" />
+                Investigaciones del Partido
+              </h3>
+              <div className="space-y-2 sm:space-y-3">
+                {candidato.partido.investigaciones_partidarias.map((inv) => (
+                  <div key={inv.id} className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3 sm:p-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2 mb-2">
+                      <span className="inline-block px-2 py-1 bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-400 text-xs font-medium rounded w-fit">
+                        {inv.tipo_investigacion}
+                      </span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{inv.estado_actual}</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-gray-900 dark:text-white font-medium mb-1">{inv.descripcion_detallada}</p>
+                    {inv.organizacion_investigadora && (
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                        Organismo: {inv.organizacion_investigadora}
+                      </p>
+                    )}
+                    {inv.fecha_inicio && (
+                      <p className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                        <Calendar size={12} />
+                        {formatearFecha(inv.fecha_inicio)}
+                      </p>
+                    )}
+                    {inv.url_verificacion && (
+                      <a
+                        href={inv.url_verificacion}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mt-2 min-h-[44px] py-2"
+                      >
+                        Fuente oficial <ExternalLink size={12} />
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {candidato.investigaciones && candidato.investigaciones.length > 0 && (
             <div>
               <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                 <Scale size={18} className="sm:w-5 sm:h-5" />
-                Investigaciones Judiciales
+                Investigaciones del Candidato
               </h3>
               <div className="space-y-2 sm:space-y-3">
                 {candidato.investigaciones.map((inv) => (

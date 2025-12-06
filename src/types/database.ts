@@ -1,6 +1,6 @@
 export type SemaforoEstado = 'VERDE' | 'AMARILLO' | 'ROJO';
 
-export type TipoInvestigacion = 'PENAL' | 'ADMINISTRATIVA' | 'CIVIL';
+export type TipoInvestigacion = 'PENAL' | 'ADMINISTRATIVA' | 'CIVIL' | 'PRELIMINAR' | 'COLECTIVA';
 
 export type EstadoInvestigacion = 'EN_INVESTIGACION' | 'EN_PROCESO' | 'SENTENCIADO' | 'ARCHIVADO';
 
@@ -17,6 +17,10 @@ export interface PartidoPolitico {
   url_oficial: string;
   url_plataforma_electoral: string;
   es_alianza: boolean;
+  estado_semaforo_partidario: SemaforoEstado;
+  tiene_investigacion_colectiva: boolean;
+  tipo_investigacion_partidaria: string | null;
+  riesgo_reputacional_historico: string | null;
   created_at: string;
 }
 
@@ -34,17 +38,24 @@ export interface Candidato {
   fecha_actualizacion_estado_legal: string;
   total_votos: number;
   activo: boolean;
+  tiene_investigaciones_familiares: boolean;
+  riesgo_reputacional_descripcion: string | null;
   created_at: string;
 }
 
+export interface PartidoConInvestigaciones extends PartidoPolitico {
+  investigaciones_partidarias: PartidoInvestigacion[];
+}
+
 export interface CandidatoConPartido extends Candidato {
-  partido: PartidoPolitico | null;
+  partido: PartidoConInvestigaciones | null;
   investigaciones: InvestigacionJudicial[];
 }
 
 export interface InvestigacionJudicial {
   id: string;
-  candidato_id: string;
+  candidato_id: string | null;
+  partido_id: string | null;
   tipo: TipoInvestigacion;
   descripcion: string;
   organismo_investigador: string;
@@ -53,6 +64,24 @@ export interface InvestigacionJudicial {
   severidad: number;
   url_verificacion: string;
   fecha_inicio: string | null;
+  alcance: string | null;
+  liderazgo_afectado: string | null;
+  afecta_candidatura: boolean;
+  created_at: string;
+}
+
+export interface PartidoInvestigacion {
+  id: string;
+  partido_id: string;
+  tipo_investigacion: string;
+  descripcion_detallada: string;
+  organizacion_investigadora: string;
+  fecha_inicio: string | null;
+  fecha_actualizacion: string;
+  estado_actual: string;
+  nivel_severidad: number;
+  url_verificacion: string | null;
+  candidatos_historicos_investigados: Record<string, unknown>[] | null;
   created_at: string;
 }
 

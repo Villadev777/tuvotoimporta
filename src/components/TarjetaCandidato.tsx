@@ -50,8 +50,19 @@ export function TarjetaCandidato({
               </p>
             )}
 
-            <div className="mb-2">
+            <div className="mb-2 space-y-1">
               <SemaforoIndicador estado={candidato.estado_semaforo} tamaño="pequeño" />
+              {candidato.partido?.estado_semaforo_partidario &&
+               candidato.partido.estado_semaforo_partidario !== 'VERDE' && (
+                <div className="flex items-center gap-1 text-xs">
+                  <span className="text-gray-600 dark:text-gray-400">Partido:</span>
+                  <SemaforoIndicador
+                    estado={candidato.partido.estado_semaforo_partidario}
+                    tamaño="pequeño"
+                    mostrarTooltip={true}
+                  />
+                </div>
+              )}
             </div>
 
             {numInvestigaciones > 0 && (
