@@ -1,7 +1,42 @@
-import { X, Users, Scale, Calendar, ExternalLink } from 'lucide-react';
+import { X, Users, Scale, Calendar, ExternalLink, CheckCircle2, BookOpen, XCircle, Clock, Info } from 'lucide-react';
 import type { CandidatoConPartido } from '../types/database';
 import { SemaforoIndicador } from './SemaforoIndicador';
 import { formatearFecha } from '../lib/utils';
+
+const getTipoCandidatoConfig = (tipo: string) => {
+  switch (tipo) {
+    case 'PRECANDIDATO_OFICIAL':
+      return {
+        label: 'Precandidato Oficial ONPE',
+        icon: CheckCircle2,
+        className: 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
+      };
+    case 'REFERENCIA_HISTORICA':
+      return {
+        label: 'Figura de Referencia Histórica',
+        icon: BookOpen,
+        className: 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800'
+      };
+    case 'FUERA_DE_CARRERA':
+      return {
+        label: 'Fuera de Carrera Electoral',
+        icon: XCircle,
+        className: 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600'
+      };
+    case 'EN_DEFINICION':
+      return {
+        label: 'En Proceso de Primarias',
+        icon: Clock,
+        className: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800'
+      };
+    default:
+      return {
+        label: 'Precandidato Oficial ONPE',
+        icon: CheckCircle2,
+        className: 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
+      };
+  }
+};
 
 interface ModalDetallesCandidatoProps {
   candidato: CandidatoConPartido;
@@ -9,6 +44,9 @@ interface ModalDetallesCandidatoProps {
 }
 
 export function ModalDetallesCandidato({ candidato, onCerrar }: ModalDetallesCandidatoProps) {
+  const tipoCandidatoConfig = getTipoCandidatoConfig(candidato.tipo_candidato);
+  const TipoCandidatoIcon = tipoCandidatoConfig.icon;
+
   return (
     <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4"
@@ -55,11 +93,27 @@ export function ModalDetallesCandidato({ candidato, onCerrar }: ModalDetallesCan
               <div className="mb-2 sm:mb-3 flex justify-center sm:justify-start">
                 <SemaforoIndicador estado={candidato.estado_semaforo} tamaño="mediano" />
               </div>
+              <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border ${tipoCandidatoConfig.className} mb-2`}>
+                <TipoCandidatoIcon size={16} />
+                <span className="font-medium text-sm">{tipoCandidatoConfig.label}</span>
+              </div>
               <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                 Última actualización: {formatearFecha(candidato.fecha_actualizacion_estado_legal)}
               </p>
             </div>
           </div>
+
+          {candidato.notas_clasificacion && (
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+              <div className="flex gap-2">
+                <Info size={18} className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-1">Nota de Clasificación</h4>
+                  <p className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">{candidato.notas_clasificacion}</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {candidato.biografia_breve && (
             <div>

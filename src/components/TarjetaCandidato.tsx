@@ -1,7 +1,42 @@
-import { Users, Eye, AlertTriangle, ChevronRight } from 'lucide-react';
+import { Users, Eye, AlertTriangle, ChevronRight, CheckCircle2, BookOpen, XCircle, Clock } from 'lucide-react';
 import type { CandidatoConPartido } from '../types/database';
 import { SemaforoIndicador } from './SemaforoIndicador';
 import { formatearNumero } from '../lib/utils';
+
+const getTipoCandidatoConfig = (tipo: string) => {
+  switch (tipo) {
+    case 'PRECANDIDATO_OFICIAL':
+      return {
+        label: 'Oficial ONPE',
+        icon: CheckCircle2,
+        className: 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
+      };
+    case 'REFERENCIA_HISTORICA':
+      return {
+        label: 'Referencia',
+        icon: BookOpen,
+        className: 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800'
+      };
+    case 'FUERA_DE_CARRERA':
+      return {
+        label: 'Fuera de Carrera',
+        icon: XCircle,
+        className: 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600'
+      };
+    case 'EN_DEFINICION':
+      return {
+        label: 'En Primarias',
+        icon: Clock,
+        className: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800'
+      };
+    default:
+      return {
+        label: 'Oficial ONPE',
+        icon: CheckCircle2,
+        className: 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
+      };
+  }
+};
 
 interface TarjetaCandidatoProps {
   candidato: CandidatoConPartido;
@@ -17,6 +52,8 @@ export function TarjetaCandidato({
   haVotado,
 }: TarjetaCandidatoProps) {
   const numInvestigaciones = candidato.investigaciones?.length || 0;
+  const tipoCandidatoConfig = getTipoCandidatoConfig(candidato.tipo_candidato);
+  const TipoCandidatoIcon = tipoCandidatoConfig.icon;
 
   return (
     <article
@@ -51,7 +88,13 @@ export function TarjetaCandidato({
             )}
 
             <div className="mb-2 space-y-1">
-              <SemaforoIndicador estado={candidato.estado_semaforo} tamaño="pequeño" />
+              <div className="flex flex-wrap items-center gap-2">
+                <SemaforoIndicador estado={candidato.estado_semaforo} tamaño="pequeño" />
+                <div className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border ${tipoCandidatoConfig.className}`}>
+                  <TipoCandidatoIcon size={12} />
+                  <span className="font-medium">{tipoCandidatoConfig.label}</span>
+                </div>
+              </div>
               {candidato.partido?.estado_semaforo_partidario &&
                candidato.partido.estado_semaforo_partidario !== 'VERDE' && (
                 <div className="flex items-center gap-1 text-xs">

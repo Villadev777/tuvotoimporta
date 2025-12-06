@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { CheckCircle2, Shield, Info, X, Vote, GitCompare, Moon, Sun, FileText } from 'lucide-react';
-import type { CandidatoConPartido, ResultadoEncuesta, SemaforoEstado } from './types/database';
+import type { CandidatoConPartido, ResultadoEncuesta, SemaforoEstado, TipoCandidato } from './types/database';
 import {
   obtenerCandidatos,
   obtenerResultadosEncuesta,
@@ -42,6 +42,7 @@ export default function App() {
   const [busqueda, setBusqueda] = useState('');
   const [filtroSemaforo, setFiltroSemaforo] = useState<SemaforoEstado | 'TODOS'>('TODOS');
   const [filtroPartido, setFiltroPartido] = useState('TODOS');
+  const [filtroTipoCandidato, setFiltroTipoCandidato] = useState<TipoCandidato | 'TODOS'>('TODOS');
   const [ordenamiento, setOrdenamiento] = useState<TipoOrdenamiento>('votos-desc');
   const [vista, setVista] = useState<TipoVista>('grid');
   const [candidatosParaComparar, setCandidatosParaComparar] = useState<CandidatoConPartido[]>([]);
@@ -144,8 +145,12 @@ export default function App() {
       filtrados = filtrados.filter((c) => c.partido_id === filtroPartido);
     }
 
+    if (filtroTipoCandidato !== 'TODOS') {
+      filtrados = filtrados.filter((c) => c.tipo_candidato === filtroTipoCandidato);
+    }
+
     return filtrados;
-  }, [candidatos, busqueda, filtroSemaforo, filtroPartido]);
+  }, [candidatos, busqueda, filtroSemaforo, filtroPartido, filtroTipoCandidato]);
 
   const candidatosOrdenados = useMemo(() => {
     const ordenados = [...candidatosFiltrados];
@@ -364,6 +369,27 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <ResultadosEncuesta resultados={resultados} totalVotos={totalVotos} />
 
+        <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl p-4 sm:p-5">
+          <div className="flex gap-3">
+            <Info size={20} className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="text-sm sm:text-base font-bold text-blue-900 dark:text-blue-300 mb-2">
+                Metodología LUKIA - Análisis de Riesgo Electoral
+              </h3>
+              <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed mb-2">
+                Esta plataforma analiza figuras políticas relevantes usando el modelo LUKIA (Legalidad, Uso de recursos,
+                Kulpabilidad/Responsabilidad, Integridad, Antecedentes). La lista incluye tanto precandidatos oficiales
+                inscritos ante ONPE como figuras políticas de referencia histórica para análisis comparativo.
+              </p>
+              <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
+                <strong>Nota importante:</strong> El semáforo de riesgo ciudadano es independiente de la habilitación legal.
+                Use los filtros de "Tipo de Candidato" para distinguir entre precandidatos oficiales, referencias históricas,
+                y candidatos en primarias.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <BarraBusquedaFiltros
           busqueda={busqueda}
           onBusquedaChange={setBusqueda}
@@ -371,6 +397,8 @@ export default function App() {
           onFiltroSemaforoChange={setFiltroSemaforo}
           filtroPartido={filtroPartido}
           onFiltroPartidoChange={setFiltroPartido}
+          filtroTipoCandidato={filtroTipoCandidato}
+          onFiltroTipoCandidatoChange={setFiltroTipoCandidato}
           partidosDisponibles={partidosDisponibles}
           totalResultados={candidatosOrdenados.length}
           totalCandidatos={candidatos.length}

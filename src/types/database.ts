@@ -1,5 +1,7 @@
 export type SemaforoEstado = 'VERDE' | 'AMARILLO' | 'ROJO';
 
+export type TipoCandidato = 'PRECANDIDATO_OFICIAL' | 'REFERENCIA_HISTORICA' | 'FUERA_DE_CARRERA' | 'EN_DEFINICION';
+
 export type TipoInvestigacion = 'PENAL' | 'ADMINISTRATIVA' | 'CIVIL' | 'PRELIMINAR' | 'COLECTIVA';
 
 export type EstadoInvestigacion = 'EN_INVESTIGACION' | 'EN_PROCESO' | 'SENTENCIADO' | 'ARCHIVADO';
@@ -40,6 +42,9 @@ export interface Candidato {
   activo: boolean;
   tiene_investigaciones_familiares: boolean;
   riesgo_reputacional_descripcion: string | null;
+  tipo_candidato: TipoCandidato;
+  inscrito_onpe: boolean;
+  notas_clasificacion: string | null;
   created_at: string;
 }
 

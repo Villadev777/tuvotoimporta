@@ -1,5 +1,5 @@
 import { Search, Filter, X } from 'lucide-react';
-import type { SemaforoEstado } from '../types/database';
+import type { SemaforoEstado, TipoCandidato } from '../types/database';
 
 interface BarraBusquedaFiltrosProps {
   busqueda: string;
@@ -8,6 +8,8 @@ interface BarraBusquedaFiltrosProps {
   onFiltroSemaforoChange: (valor: SemaforoEstado | 'TODOS') => void;
   filtroPartido: string;
   onFiltroPartidoChange: (valor: string) => void;
+  filtroTipoCandidato: TipoCandidato | 'TODOS';
+  onFiltroTipoCandidatoChange: (valor: TipoCandidato | 'TODOS') => void;
   partidosDisponibles: { id: string; nombre: string; sigla: string }[];
   totalResultados: number;
   totalCandidatos: number;
@@ -20,16 +22,19 @@ export function BarraBusquedaFiltros({
   onFiltroSemaforoChange,
   filtroPartido,
   onFiltroPartidoChange,
+  filtroTipoCandidato,
+  onFiltroTipoCandidatoChange,
   partidosDisponibles,
   totalResultados,
   totalCandidatos,
 }: BarraBusquedaFiltrosProps) {
-  const hayFiltrosActivos = busqueda || filtroSemaforo !== 'TODOS' || filtroPartido !== 'TODOS';
+  const hayFiltrosActivos = busqueda || filtroSemaforo !== 'TODOS' || filtroPartido !== 'TODOS' || filtroTipoCandidato !== 'TODOS';
 
   const limpiarFiltros = () => {
     onBusquedaChange('');
     onFiltroSemaforoChange('TODOS');
     onFiltroPartidoChange('TODOS');
+    onFiltroTipoCandidatoChange('TODOS');
   };
 
   return (
@@ -66,7 +71,24 @@ export function BarraBusquedaFiltros({
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div>
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+            Tipo de Candidato
+          </label>
+          <select
+            value={filtroTipoCandidato}
+            onChange={(e) => onFiltroTipoCandidatoChange(e.target.value as TipoCandidato | 'TODOS')}
+            className="w-full px-3 sm:px-4 py-3 sm:py-3.5 border-2 border-gray-200 dark:border-gray-600 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm sm:text-base min-h-[48px]"
+          >
+            <option value="TODOS">Todos los tipos</option>
+            <option value="PRECANDIDATO_OFICIAL">✓ Oficial ONPE</option>
+            <option value="REFERENCIA_HISTORICA">📚 Referencia Histórica</option>
+            <option value="EN_DEFINICION">⏳ En Primarias</option>
+            <option value="FUERA_DE_CARRERA">✗ Fuera de Carrera</option>
+          </select>
+        </div>
+
         <div>
           <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
             Estado Judicial
