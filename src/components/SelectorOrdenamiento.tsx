@@ -27,15 +27,15 @@ export function SelectorOrdenamiento({
   ];
 
   return (
-    <div className="flex items-center gap-3">
-      <div className="flex items-center gap-2 text-gray-700">
-        <ArrowUpDown size={18} />
-        <span className="text-sm font-semibold">Ordenar:</span>
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
+      <div className="flex items-center gap-2 text-white sm:text-gray-700">
+        <ArrowUpDown size={16} className="sm:w-[18px] sm:h-[18px]" />
+        <span className="text-xs sm:text-sm font-semibold">Ordenar:</span>
       </div>
       <select
         value={ordenamiento}
         onChange={(e) => onOrdenamientoChange(e.target.value as TipoOrdenamiento)}
-        className="px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white text-sm font-medium"
+        className="flex-1 sm:flex-none px-3 sm:px-4 py-2.5 sm:py-2 border-2 border-gray-200 dark:border-gray-600 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-xs sm:text-sm font-medium min-h-[44px]"
       >
         {opciones.map((opcion) => (
           <option key={opcion.valor} value={opcion.valor}>

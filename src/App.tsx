@@ -272,43 +272,43 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-200">
       <Tutorial />
       <header className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-gray-950 dark:via-blue-950 dark:to-gray-950 text-white shadow-xl sticky top-0 z-40 border-b-4 border-blue-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-500 rounded-2xl blur-xl opacity-50"></div>
-                <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-2xl shadow-lg transform hover:scale-110 transition-transform">
-                  <Vote size={36} className="text-white" />
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+              <div className="relative flex-shrink-0">
+                <div className="absolute inset-0 bg-blue-500 rounded-xl sm:rounded-2xl blur-xl opacity-50"></div>
+                <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-lg transform hover:scale-110 transition-transform">
+                  <Vote size={24} className="text-white sm:w-9 sm:h-9" />
                 </div>
               </div>
-              <div>
-                <h1 className="text-3xl md:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+              <div className="min-w-0">
+                <h1 className="text-xl sm:text-3xl md:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                   TUVOTOIMPORTA
                 </h1>
-                <p className="text-sm md:text-base text-blue-200 font-medium">
+                <p className="text-xs sm:text-sm md:text-base text-blue-200 font-medium">
                   Elecciones Perú 2026
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
               <BotonesCompartir />
               <button
                 onClick={toggleTheme}
-                className="flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-sm text-white rounded-xl hover:bg-white/20 transition-all border border-white/20 hover:scale-105 transform"
+                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 py-2 sm:py-2.5 bg-white/10 backdrop-blur-sm text-white rounded-lg sm:rounded-xl hover:bg-white/20 transition-all border border-white/20 hover:scale-105 transform"
                 aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
               >
-                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                <span className="hidden sm:inline font-medium">
+                {theme === 'dark' ? <Sun size={18} className="sm:w-5 sm:h-5" /> : <Moon size={18} className="sm:w-5 sm:h-5" />}
+                <span className="hidden md:inline font-medium text-sm">
                   {theme === 'dark' ? 'Claro' : 'Oscuro'}
                 </span>
               </button>
               <button
                 onClick={() => setMostrarInfo(!mostrarInfo)}
-                className="flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-sm text-white rounded-xl hover:bg-white/20 transition-all border border-white/20 hover:scale-105 transform"
+                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 py-2 sm:py-2.5 bg-white/10 backdrop-blur-sm text-white rounded-lg sm:rounded-xl hover:bg-white/20 transition-all border border-white/20 hover:scale-105 transform"
                 aria-label="Mostrar información"
               >
-                <Info size={20} />
-                <span className="hidden sm:inline font-medium">Info</span>
+                <Info size={18} className="sm:w-5 sm:h-5" />
+                <span className="hidden md:inline font-medium text-sm">Info</span>
               </button>
             </div>
           </div>
@@ -317,26 +317,26 @@ export default function App() {
 
       {mostrarInfo && (
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 border-b-2 border-blue-500 shadow-lg animate-in slide-in-from-top duration-300">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex items-start gap-4 text-white">
-              <div className="bg-white/20 backdrop-blur-sm p-3 rounded-xl">
-                <Shield size={24} />
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
+            <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 text-white">
+              <div className="bg-white/20 backdrop-blur-sm p-2.5 sm:p-3 rounded-xl flex-shrink-0">
+                <Shield size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <div className="flex-1">
-                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+              <div className="flex-1 w-full">
+                <h3 className="font-bold text-base sm:text-lg mb-3 flex items-center gap-2">
                   Sistema de Semáforo Judicial
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-                    <p className="font-semibold mb-1">🟢 Verde</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-sm">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2.5 sm:p-3 border border-white/20">
+                    <p className="font-semibold mb-1 text-sm">🟢 Verde</p>
                     <p className="text-blue-100 text-xs">Sin investigaciones penales activas</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-                    <p className="font-semibold mb-1">🟡 Amarillo</p>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2.5 sm:p-3 border border-white/20">
+                    <p className="font-semibold mb-1 text-sm">🟡 Amarillo</p>
                     <p className="text-blue-100 text-xs">Investigaciones en proceso fiscal</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-                    <p className="font-semibold mb-1">🔴 Rojo</p>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2.5 sm:p-3 border border-white/20">
+                    <p className="font-semibold mb-1 text-sm">🔴 Rojo</p>
                     <p className="text-blue-100 text-xs">Investigaciones graves o condenas</p>
                   </div>
                 </div>
@@ -376,33 +376,35 @@ export default function App() {
           totalCandidatos={candidatos.length}
         />
 
-        <div className="bg-gradient-to-r from-slate-900 to-blue-900 text-white rounded-2xl p-6 shadow-xl border border-blue-500/30">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-2">Todos los Candidatos</h2>
-              <p className="text-blue-200">
-                {haVotado ? (
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 size={18} className="text-green-400" />
-                    Ya emitiste tu voto en esta encuesta
-                  </span>
-                ) : (
-                  'Haz clic en un candidato para emitir tu voto'
-                )}
-              </p>
+        <div className="bg-gradient-to-r from-slate-900 to-blue-900 text-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl border border-blue-500/30">
+          <div className="flex flex-col gap-3 sm:gap-4 mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex-1">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">Todos los Candidatos</h2>
+                <p className="text-sm sm:text-base text-blue-200">
+                  {haVotado ? (
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 size={16} className="text-green-400 sm:w-[18px] sm:h-[18px]" />
+                      Ya emitiste tu voto en esta encuesta
+                    </span>
+                  ) : (
+                    'Haz clic en un candidato para emitir tu voto'
+                  )}
+                </p>
+              </div>
+              {candidatosParaComparar.length > 0 && (
+                <button
+                  onClick={() => setMostrarComparador(true)}
+                  className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg sm:rounded-xl hover:bg-white/20 transition-all border border-white/20 hover:scale-105 transform font-semibold text-sm sm:text-base"
+                >
+                  <GitCompare size={18} className="sm:w-5 sm:h-5" />
+                  Comparar ({candidatosParaComparar.length})
+                </button>
+              )}
             </div>
-            {candidatosParaComparar.length > 0 && (
-              <button
-                onClick={() => setMostrarComparador(true)}
-                className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-sm text-white rounded-xl hover:bg-white/20 transition-all border border-white/20 hover:scale-105 transform font-semibold"
-              >
-                <GitCompare size={20} />
-                Comparar ({candidatosParaComparar.length})
-              </button>
-            )}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between">
             <SelectorOrdenamiento
               ordenamiento={ordenamiento}
               onOrdenamientoChange={setOrdenamiento}
@@ -503,42 +505,42 @@ export default function App() {
 
       {candidatoParaVotar && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4 animate-in fade-in duration-200"
           onClick={() => setCandidatoParaVotar(null)}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-in zoom-in-95 duration-200"
+            className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-8 animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Vote size={40} className="text-blue-600" />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <Vote size={32} className="text-blue-600 sm:w-10 sm:h-10" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                 Confirmar Voto
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                 ¿Confirmas tu voto por{' '}
                 <span className="font-bold text-blue-600">
                   {candidatoParaVotar.nombre_completo}
                 </span>
                 ?
               </p>
-              <p className="text-sm text-gray-500 mb-8 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+              <p className="text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8 bg-yellow-50 border border-yellow-200 rounded-lg p-2.5 sm:p-3">
                 ⚠️ Esta acción no se puede deshacer
               </p>
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <button
                   onClick={() => setCandidatoParaVotar(null)}
                   disabled={votando}
-                  className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-all disabled:opacity-50"
+                  className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg sm:rounded-xl font-semibold transition-all disabled:opacity-50 text-sm sm:text-base min-h-[44px]"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={confirmarVoto}
                   disabled={votando}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold transition-all transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 shadow-lg"
+                  className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg sm:rounded-xl font-semibold transition-all transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 shadow-lg text-sm sm:text-base min-h-[44px]"
                 >
                   {votando ? 'Votando...' : 'Confirmar'}
                 </button>

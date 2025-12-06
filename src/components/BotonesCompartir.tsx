@@ -40,25 +40,26 @@ export function BotonesCompartir({ texto = 'Participa en la encuesta presidencia
     <div className="relative">
       <button
         onClick={() => setMostrarOpciones(!mostrarOpciones)}
-        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg"
+        className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg sm:rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg text-xs sm:text-base min-h-[44px]"
+        aria-label="Compartir"
       >
-        <Share2 size={18} />
-        Compartir
+        <Share2 size={16} className="sm:w-[18px] sm:h-[18px]" />
+        <span className="hidden sm:inline">Compartir</span>
       </button>
 
       {mostrarOpciones && (
-        <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border-2 border-gray-100 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute right-0 mt-2 w-48 sm:w-56 bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-2xl border-2 border-gray-100 dark:border-gray-700 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
           <button
             onClick={() => {
               compartirEnFacebook();
               setMostrarOpciones(false);
             }}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors text-left"
+            className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors text-left min-h-[44px]"
           >
-            <div className="bg-blue-600 p-2 rounded-lg">
-              <Facebook size={18} className="text-white" />
+            <div className="bg-blue-600 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
+              <Facebook size={16} className="text-white sm:w-[18px] sm:h-[18px]" />
             </div>
-            <span className="font-medium text-gray-900">Facebook</span>
+            <span className="font-medium text-gray-900 dark:text-white text-xs sm:text-sm">Facebook</span>
           </button>
 
           <button
@@ -66,12 +67,12 @@ export function BotonesCompartir({ texto = 'Participa en la encuesta presidencia
               compartirEnTwitter();
               setMostrarOpciones(false);
             }}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors text-left border-t border-gray-100"
+            className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors text-left border-t border-gray-100 dark:border-gray-700 min-h-[44px]"
           >
-            <div className="bg-sky-500 p-2 rounded-lg">
-              <Twitter size={18} className="text-white" />
+            <div className="bg-sky-500 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
+              <Twitter size={16} className="text-white sm:w-[18px] sm:h-[18px]" />
             </div>
-            <span className="font-medium text-gray-900">Twitter</span>
+            <span className="font-medium text-gray-900 dark:text-white text-xs sm:text-sm">Twitter</span>
           </button>
 
           <button
@@ -79,22 +80,22 @@ export function BotonesCompartir({ texto = 'Participa en la encuesta presidencia
               compartirEnWhatsApp();
               setMostrarOpciones(false);
             }}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-green-50 transition-colors text-left border-t border-gray-100"
+            className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors text-left border-t border-gray-100 dark:border-gray-700 min-h-[44px]"
           >
-            <div className="bg-green-600 p-2 rounded-lg">
-              <MessageCircle size={18} className="text-white" />
+            <div className="bg-green-600 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
+              <MessageCircle size={16} className="text-white sm:w-[18px] sm:h-[18px]" />
             </div>
-            <span className="font-medium text-gray-900">WhatsApp</span>
+            <span className="font-medium text-gray-900 dark:text-white text-xs sm:text-sm">WhatsApp</span>
           </button>
 
           <button
             onClick={copiarEnlace}
-            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left border-t border-gray-100"
+            className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left border-t border-gray-100 dark:border-gray-700 min-h-[44px]"
           >
-            <div className="bg-gray-600 p-2 rounded-lg">
-              <Link2 size={18} className="text-white" />
+            <div className="bg-gray-600 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
+              <Link2 size={16} className="text-white sm:w-[18px] sm:h-[18px]" />
             </div>
-            <span className="font-medium text-gray-900">
+            <span className="font-medium text-gray-900 dark:text-white text-xs sm:text-sm">
               {copiado ? '¡Copiado!' : 'Copiar enlace'}
             </span>
           </button>
