@@ -390,7 +390,7 @@ export default function App() {
                 </ul>
               </div>
               <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
-                <strong>Sistema de semáforo:</strong> Analiza el riesgo legal según el modelo LUKIA (Legalidad, Uso de recursos,
+                <strong>Sistema de semáforo:</strong> Analiza el riesgo legal según el modelo (Legalidad, Uso de recursos,
                 Culpabilidad, Integridad, Antecedentes). El semáforo es independiente de la habilitación legal para postular.
               </p>
             </div>
