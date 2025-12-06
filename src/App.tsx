@@ -374,7 +374,7 @@ export default function App() {
             <Info size={20} className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
             <div>
               <h3 className="text-sm sm:text-base font-bold text-blue-900 dark:text-blue-300 mb-2">
-                Metodología LUKIA - Análisis de Riesgo Electoral
+                Análisis de Riesgo Electoral
               </h3>
               <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed mb-2">
                 Esta plataforma analiza figuras políticas relevantes usando el modelo LUKIA (Legalidad, Uso de recursos,
