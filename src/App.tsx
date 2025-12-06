@@ -377,8 +377,8 @@ export default function App() {
                 Análisis de Riesgo Electoral
               </h3>
               <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed mb-2">
-                Esta plataforma analiza figuras políticas relevantes usando el modelo LUKIA (Legalidad, Uso de recursos,
-                Kulpabilidad/Responsabilidad, Integridad, Antecedentes). La lista incluye tanto precandidatos oficiales
+                Esta plataforma analiza figuras políticas relevantes usando el modelo de (Legalidad, Uso de recursos,
+                Culpabilidad/Responsabilidad, Integridad, Antecedentes). La lista incluye tanto precandidatos oficiales
                 inscritos ante ONPE como figuras políticas de referencia histórica para análisis comparativo.
               </p>
               <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
