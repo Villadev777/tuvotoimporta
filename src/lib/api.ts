@@ -17,6 +17,7 @@ export async function obtenerCandidatos(): Promise<CandidatoConPartido[]> {
         investigaciones:investigaciones_judiciales(*)
       `)
       .eq('activo', true)
+      .in('tipo_candidato', ['PRECANDIDATO_OFICIAL', 'EN_DEFINICION'])
       .order('nombre_completo');
 
     if (error) throw createNetworkError(error);

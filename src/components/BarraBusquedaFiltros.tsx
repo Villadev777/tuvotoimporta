@@ -81,11 +81,9 @@ export function BarraBusquedaFiltros({
             onChange={(e) => onFiltroTipoCandidatoChange(e.target.value as TipoCandidato | 'TODOS')}
             className="w-full px-3 sm:px-4 py-3 sm:py-3.5 border-2 border-gray-200 dark:border-gray-600 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm sm:text-base min-h-[48px]"
           >
-            <option value="TODOS">Todos los tipos</option>
+            <option value="TODOS">Todos los candidatos</option>
             <option value="PRECANDIDATO_OFICIAL">✓ Oficial ONPE</option>
-            <option value="REFERENCIA_HISTORICA">📚 Referencia Histórica</option>
             <option value="EN_DEFINICION">⏳ En Primarias</option>
-            <option value="FUERA_DE_CARRERA">✗ Fuera de Carrera</option>
           </select>
         </div>
 

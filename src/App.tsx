@@ -374,17 +374,24 @@ export default function App() {
             <Info size={20} className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
             <div>
               <h3 className="text-sm sm:text-base font-bold text-blue-900 dark:text-blue-300 mb-2">
-                Análisis de Riesgo Electoral
+                Candidatos Oficiales ONPE 2026
               </h3>
-              <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed mb-2">
-                Esta plataforma analiza figuras políticas relevantes usando el modelo de (Legalidad, Uso de recursos,
-                Culpabilidad/Responsabilidad, Integridad, Antecedentes). La lista incluye tanto precandidatos oficiales
-                inscritos ante ONPE como figuras políticas de referencia histórica para análisis comparativo.
+              <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed mb-3">
+                Esta plataforma muestra únicamente los <strong>precandidatos presidenciales oficiales inscritos ante ONPE</strong> para las Elecciones 2026,
+                más aquellos que están <strong>en primarias internas</strong> de sus partidos.
               </p>
+              <div className="bg-white/60 dark:bg-gray-800/40 rounded-lg p-3 mb-3 border border-blue-300 dark:border-blue-700">
+                <p className="text-xs font-semibold text-blue-900 dark:text-blue-200 mb-1.5">
+                  🎯 Categorías de Candidatos:
+                </p>
+                <ul className="text-xs text-blue-800 dark:text-blue-200 space-y-1 ml-4">
+                  <li><strong>• Precandidato Oficial:</strong> Inscrito formalmente ante ONPE</li>
+                  <li><strong>• En Definición:</strong> En primarias internas de Acción Popular</li>
+                </ul>
+              </div>
               <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
-                <strong>Nota importante:</strong> El semáforo de riesgo ciudadano es independiente de la habilitación legal.
-                Use los filtros de "Tipo de Candidato" para distinguir entre precandidatos oficiales, referencias históricas,
-                y candidatos en primarias.
+                <strong>Sistema de semáforo:</strong> Analiza el riesgo legal según el modelo LUKIA (Legalidad, Uso de recursos,
+                Culpabilidad, Integridad, Antecedentes). El semáforo es independiente de la habilitación legal para postular.
               </p>
             </div>
           </div>
