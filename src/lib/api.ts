@@ -107,19 +107,19 @@ export async function verificarVotoPrevio(): Promise<boolean> {
 }
 
 export function suscribirACambiosVotos(
-  callback: (payload: { candidato_id: string }) => void
+  callback: () => void
 ) {
   const channel = supabase
     .channel('votos-realtime')
     .on(
       'postgres_changes',
       {
-        event: 'INSERT',
+        event: 'UPDATE',
         schema: 'public',
-        table: 'encuesta_votos',
+        table: 'candidatos',
       },
-      (payload) => {
-        callback(payload.new as { candidato_id: string });
+      () => {
+        callback();
       }
     )
     .subscribe();
