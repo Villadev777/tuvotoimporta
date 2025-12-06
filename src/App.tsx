@@ -601,7 +601,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="text-center">
             <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-              TUVOTOIMPORTA
+              TU VOTO IMPORTA
             </h3>
             <p className="text-blue-200 mb-4">Portal de Encuestas Presidenciales</p>
             <p className="text-sm text-blue-300 mb-2">
