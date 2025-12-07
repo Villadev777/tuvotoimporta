@@ -90,21 +90,30 @@ Deno.serve(async (req: Request) => {
     const body: VoteRequest = await req.json();
     
     const recaptchaScore = await verifyRecaptcha(body.recaptcha_token);
-    
+
+    const trustScore = recaptchaScore;
+
+    const metadata = {
+      user_agent: body.user_agent,
+      timezone_offset: body.timezone_offset,
+      navegador_info: body.navegador_info,
+      recaptcha_score: recaptchaScore,
+      es_verificado: body.es_verificado || false,
+    };
+
     const { data: validationResult, error: validationError } = await supabase.rpc(
       "validar_y_registrar_voto",
       {
+        p_candidato_id: body.candidato_id,
         p_usuario_hash: body.usuario_hash,
-        p_fingerprint: body.dispositivo_fingerprint,
+        p_dispositivo_fingerprint: body.dispositivo_fingerprint,
         p_ip_hash: ipHash,
-        p_recaptcha_score: recaptchaScore,
-        p_user_agent: body.user_agent,
-        p_timezone_offset: body.timezone_offset,
-        p_navegador_info: body.navegador_info,
-        p_es_verificado: body.es_verificado || false,
+        p_fingerprint_data: body.navegador_info,
+        p_trust_score: trustScore,
+        p_metadata: metadata,
       }
     );
-    
+
     if (validationError) {
       console.error("Validation error:", validationError);
       return new Response(
@@ -115,13 +124,13 @@ Deno.serve(async (req: Request) => {
         }
       );
     }
-    
-    if (!validationResult.puede_votar) {
+
+    if (!validationResult.success) {
       return new Response(
         JSON.stringify({
           success: false,
-          message: validationResult.motivo_rechazo,
-          trust_score: validationResult.trust_score,
+          message: validationResult.message || "No se pudo procesar tu voto",
+          error: validationResult.error,
         }),
         {
           status: 403,
@@ -129,30 +138,15 @@ Deno.serve(async (req: Request) => {
         }
       );
     }
-    
+
     if (validationResult.requiere_revision) {
-      const { error: pendingError } = await supabase
-        .from("votos_pendientes")
-        .insert({
-          candidato_id: body.candidato_id,
-          usuario_hash: body.usuario_hash,
-          dispositivo_fingerprint: body.dispositivo_fingerprint,
-          ip_hash: ipHash,
-          motivo_sospecha: "Trust score entre 30-50, requiere revisión",
-          trust_score: validationResult.trust_score,
-          recaptcha_score: recaptchaScore,
-        });
-      
-      if (pendingError) {
-        console.error("Error inserting pending vote:", pendingError);
-      }
-      
       return new Response(
         JSON.stringify({
           success: true,
           pending_review: true,
           message: "Tu voto está en revisión y será validado pronto",
-          trust_score: validationResult.trust_score,
+          voto_id: validationResult.voto_id,
+          resultado: validationResult.resultado,
         }),
         {
           status: 202,
@@ -160,57 +154,14 @@ Deno.serve(async (req: Request) => {
         }
       );
     }
-    
-    const { error: insertError } = await supabase
-      .from("encuesta_votos")
-      .insert({
-        candidato_id: body.candidato_id,
-        usuario_hash: body.usuario_hash,
-        dispositivo_fingerprint: body.dispositivo_fingerprint,
-        ip_address: "hidden",
-        ip_hash: ipHash,
-        recaptcha_score: recaptchaScore,
-        trust_score: validationResult.trust_score,
-        es_verificado: body.es_verificado || false,
-        user_agent: body.user_agent,
-        timezone_offset: body.timezone_offset,
-        navegador_info: body.navegador_info,
-        resultado_validacion: "APROBADO",
-        metodo_verificacion: body.es_verificado ? "EMAIL_SMS" : "NINGUNO",
-        es_sospechoso: false,
-        metadata: {},
-      });
-    
-    if (insertError) {
-      console.error("Insert error:", insertError);
-      
-      if (insertError.code === "23505") {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            message: "Ya has votado anteriormente",
-          }),
-          {
-            status: 409,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      }
-      
-      return new Response(
-        JSON.stringify({ error: "Error al registrar voto", details: insertError.message }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
-    
+
     return new Response(
       JSON.stringify({
         success: true,
         message: "Voto registrado exitosamente",
-        trust_score: validationResult.trust_score,
+        voto_id: validationResult.voto_id,
+        resultado: validationResult.resultado,
+        trust_score: trustScore,
         recaptcha_score: recaptchaScore,
       }),
       {
