@@ -199,11 +199,9 @@ export default function App() {
       total += parseInt(dni.charAt(i) || '0') * mult[i];
     }
     const res = 11 - (total % 11);
-    let finalDigit = res;
-    if (res === 10) finalDigit = 1;
-    if (res === 11) finalDigit = 0;
+    let calculatedDigit = res === 10 ? 'K' : res === 11 ? '0' : res.toString();
 
-    if (dni.length !== 8 || finalDigit.toString() !== dniDigit) {
+    if (dni.length !== 8 || calculatedDigit !== dniDigit) {
       alert('El DNI o el dígito verificador es incorrecto.\nPor favor verifica tu documento.');
       return;
     }
@@ -724,4 +722,3 @@ export default function App() {
     </div>
   );
 }
-
