@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
-import { CheckCircle2, Shield, Info, X, Vote, GitCompare, Moon, Sun, FileText } from 'lucide-react';
-import type { CandidatoConPartido, ResultadoEncuesta, SemaforoEstado, TipoCandidato } from './types/database';
+import { CheckCircle2, Shield, Info, X, Vote, GitCompare, Moon, Sun, FileText, Heart } from 'lucide-react';
+import type { CandidatoConPartido, ResultadoEncuesta, SemaforoEstado, TipoCandidato, PartidoPolitico } from './types/database';
 import {
   obtenerCandidatos,
   obtenerResultadosEncuesta,
@@ -36,6 +36,7 @@ export default function App() {
   const [votando, setVotando] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mostrarInfo, setMostrarInfo] = useState(false);
+  const [mostrarDonacion, setMostrarDonacion] = useState(false);
   const [mostrarExito, setMostrarExito] = useState(false);
   const [mostrarPrivacidad, setMostrarPrivacidad] = useState(false);
 
@@ -47,6 +48,10 @@ export default function App() {
   const [vista, setVista] = useState<TipoVista>('grid');
   const [candidatosParaComparar, setCandidatosParaComparar] = useState<CandidatoConPartido[]>([]);
   const [mostrarComparador, setMostrarComparador] = useState(false);
+
+  /* DNI Validation State */
+  const [dni, setDni] = useState('');
+  const [dniDigit, setDniDigit] = useState('');
 
   useEffect(() => {
     cargarDatos();
@@ -123,7 +128,7 @@ export default function App() {
     const partidos = candidatos
       .filter((c) => c.partido)
       .map((c) => c.partido!)
-      .filter((partido, index, self) => self.findIndex((p) => p.id === partido.id) === index);
+      .filter((partido: PartidoPolitico, index: number, self: PartidoPolitico[]) => self.findIndex((p) => p.id === partido.id) === index);
     return partidos;
   }, [candidatos]);
 
@@ -169,7 +174,7 @@ export default function App() {
         ordenados.sort((a, b) => b.total_votos - a.total_votos);
         break;
       case 'semaforo-critico':
-        const orden = { ROJO: 0, AMARILLO: 1, VERDE: 2 };
+        const orden: Record<string, number> = { ROJO: 0, AMARILLO: 1, VERDE: 2 };
         ordenados.sort((a, b) => orden[a.estado_semaforo] - orden[b.estado_semaforo]);
         break;
       case 'partido':
@@ -187,15 +192,33 @@ export default function App() {
   async function confirmarVoto() {
     if (!candidatoParaVotar) return;
 
+    // Validate DNI Logic Inline
+    const mult = [3, 2, 7, 6, 5, 4, 3, 2];
+    let total = 0;
+    for (let i = 0; i < 8; i++) {
+      total += parseInt(dni.charAt(i) || '0') * mult[i];
+    }
+    const res = 11 - (total % 11);
+    let finalDigit = res;
+    if (res === 10) finalDigit = 1;
+    if (res === 11) finalDigit = 0;
+
+    if (dni.length !== 8 || finalDigit.toString() !== dniDigit) {
+      alert('El DNI o el dígito verificador es incorrecto.\nPor favor verifica tu documento.');
+      return;
+    }
+
     try {
       setVotando(true);
 
-      const resultado = await registrarVoto(candidatoParaVotar.id, false);
+      const resultado = await registrarVoto(candidatoParaVotar.id, false, dni, dniDigit);
 
       if (resultado.success) {
         setHaVotado(true);
         setCandidatoParaVotar(null);
         setMostrarExito(true);
+        setDni('');
+        setDniDigit('');
 
         setTimeout(() => setMostrarExito(false), 5000);
 
@@ -315,6 +338,14 @@ export default function App() {
                 <Info size={18} className="sm:w-5 sm:h-5" />
                 <span className="hidden md:inline font-medium text-sm">Info</span>
               </button>
+              <button
+                onClick={() => setMostrarDonacion(!mostrarDonacion)}
+                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-lg sm:rounded-xl hover:from-pink-600 hover:to-rose-700 transition-all border border-pink-400/30 hover:scale-105 transform shadow-lg shadow-pink-500/20"
+                aria-label="Donar"
+              >
+                <Heart size={18} className="sm:w-5 sm:h-5 fill-current" />
+                <span className="hidden md:inline font-medium text-sm">Donar</span>
+              </button>
             </div>
           </div>
         </div>
@@ -348,6 +379,32 @@ export default function App() {
                 <p className="text-xs text-blue-100 mt-3">
                   Encuesta informativa sin fuerza vinculante. Datos verificados vía JNE y Poder Judicial.
                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarDonacion && (
+        <div className="bg-gradient-to-r from-pink-600 to-rose-600 border-b-2 border-pink-500 shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4 text-white">
+              <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full flex-shrink-0 animate-pulse">
+                <Heart size={24} className="sm:w-8 sm:h-8 fill-current" />
+              </div>
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="font-bold text-lg sm:text-xl mb-2 flex items-center justify-center sm:justify-start gap-2">
+                  ¡Apóyanos de corazón!
+                </h3>
+                <p className="text-pink-100 text-sm sm:text-base mb-3 max-w-2xl">
+                  Tu donación nos ayuda a mantener este proyecto vivo, libre de publicidad y accesible para todos los peruanos.
+                  Cada aporte cuenta para seguir mejorando la plataforma.
+                </p>
+                <div className="inline-flex flex-col sm:flex-row items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+                  <span className="font-bold text-sm sm:text-base">YAPE O PLIN:</span>
+                  <span className="font-mono text-lg sm:text-xl font-bold bg-white/20 px-3 py-1 rounded-lg">992 033 173</span>
+                  <span className="text-xs sm:text-sm text-pink-200"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -482,11 +539,10 @@ export default function App() {
                   <button
                     onClick={() => agregarParaComparar(candidato)}
                     disabled={candidatosParaComparar.some((c) => c.id === candidato.id)}
-                    className={`mt-2 w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                      candidatosParaComparar.some((c) => c.id === candidato.id)
-                        ? 'bg-green-100 text-green-700 border border-green-300'
-                        : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200'
-                    }`}
+                    className={`mt-2 w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${candidatosParaComparar.some((c) => c.id === candidato.id)
+                      ? 'bg-green-100 text-green-700 border border-green-300'
+                      : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200'
+                      }`}
                   >
                     {candidatosParaComparar.some((c) => c.id === candidato.id)
                       ? '✓ Para comparar'
@@ -514,11 +570,10 @@ export default function App() {
                   <button
                     onClick={() => agregarParaComparar(candidato)}
                     disabled={candidatosParaComparar.some((c) => c.id === candidato.id)}
-                    className={`mt-2 ml-20 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      candidatosParaComparar.some((c) => c.id === candidato.id)
-                        ? 'bg-green-100 text-green-700 border border-green-300'
-                        : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200'
-                    }`}
+                    className={`mt-2 ml-20 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${candidatosParaComparar.some((c) => c.id === candidato.id)
+                      ? 'bg-green-100 text-green-700 border border-green-300'
+                      : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200'
+                      }`}
                   >
                     {candidatosParaComparar.some((c) => c.id === candidato.id)
                       ? '✓ Para comparar'
@@ -541,7 +596,11 @@ export default function App() {
       {candidatoParaVotar && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4 animate-in fade-in duration-200"
-          onClick={() => setCandidatoParaVotar(null)}
+          onClick={() => {
+            setCandidatoParaVotar(null);
+            setDni('');
+            setDniDigit('');
+          }}
         >
           <div
             className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-8 animate-in zoom-in-95 duration-200"
@@ -561,12 +620,53 @@ export default function App() {
                 </span>
                 ?
               </p>
+
+              {/* DNI Input Section */}
+              <div className="bg-blue-50 p-4 rounded-xl mb-6">
+                <label className="block text-sm font-medium text-blue-900 mb-2 text-left">
+                  Ingresa tu DNI para verificar identidad:
+                </label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    maxLength={8}
+                    value={dni}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^0-9]/g, '');
+                      setDni(val);
+                    }}
+                    placeholder="DNI (8 dígitos)"
+                    className="flex-1 px-4 py-2 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-center tracking-widest font-mono text-lg"
+                  />
+                  <div className="text-gray-400 font-bold">-</div>
+                  <input
+                    type="text"
+                    maxLength={1}
+                    value={dniDigit}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^0-9kK]/g, '').toUpperCase();
+                      setDniDigit(val);
+                    }}
+                    placeholder="#"
+                    className="w-12 px-2 py-2 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-center font-mono text-lg uppercase"
+                  />
+                </div>
+                <p className="text-xs text-blue-600 mt-2 text-left">
+                  * El dígito verificador es el número o letra al final de tu DNI.
+                </p>
+              </div>
+
               <p className="text-xs sm:text-sm text-gray-500 mb-6 sm:mb-8 bg-yellow-50 border border-yellow-200 rounded-lg p-2.5 sm:p-3">
                 ⚠️ Esta acción no se puede deshacer
               </p>
+
               <div className="flex gap-2 sm:gap-3">
                 <button
-                  onClick={() => setCandidatoParaVotar(null)}
+                  onClick={() => {
+                    setCandidatoParaVotar(null);
+                    setDni('');
+                    setDniDigit('');
+                  }}
                   disabled={votando}
                   className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg sm:rounded-xl font-semibold transition-all disabled:opacity-50 text-sm sm:text-base min-h-[44px]"
                 >
@@ -574,7 +674,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={confirmarVoto}
-                  disabled={votando}
+                  disabled={votando || dni.length !== 8 || dniDigit.length !== 1}
                   className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg sm:rounded-xl font-semibold transition-all transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 shadow-lg text-sm sm:text-base min-h-[44px]"
                 >
                   {votando ? 'Votando...' : 'Confirmar'}

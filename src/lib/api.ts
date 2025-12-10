@@ -55,7 +55,9 @@ export async function obtenerResultadosEncuesta(): Promise<ResultadoEncuesta[]> 
 
 export async function registrarVoto(
   candidatoId: string,
-  esVerificado: boolean = false
+  esVerificado: boolean = false,
+  dni?: string,
+  dniDigit?: string
 ): Promise<{ success: boolean; message: string; trust_score?: number }> {
   return retryWithBackoff(async () => {
     const fingerprint = await generateFingerprint();
@@ -80,6 +82,8 @@ export async function registrarVoto(
         timezone_offset: new Date().getTimezoneOffset(),
         navegador_info: navegadorInfo,
         es_verificado: esVerificado,
+        dni: dni,
+        dni_digit: dniDigit,
       }),
     });
 
