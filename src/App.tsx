@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
-import { CheckCircle2, Shield, Info, X, Vote, GitCompare, Moon, Sun, FileText, Heart } from 'lucide-react';
-import type { CandidatoConPartido, ResultadoEncuesta, SemaforoEstado, TipoCandidato, PartidoPolitico } from './types/database';
+import { CheckCircle2, Shield, Info, X, Vote, GitCompare, Moon, Sun, FileText } from 'lucide-react';
+import type { CandidatoConPartido, ResultadoEncuesta, SemaforoEstado, TipoCandidato } from './types/database';
 import {
   obtenerCandidatos,
   obtenerResultadosEncuesta,
