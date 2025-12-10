@@ -109,6 +109,7 @@ Deno.serve(async (req: Request) => {
 
     const body: VoteRequest = await req.json();
 
+<<<<<<< Updated upstream
     // Validar DNI si fue enviado
     let dniHash = null;
     if (body.dni && body.dni_digit) {
@@ -152,6 +153,10 @@ Deno.serve(async (req: Request) => {
       es_verificado: body.es_verificado || false,
     };
 
+=======
+    const recaptchaScore = await verifyRecaptcha(body.recaptcha_token);
+
+>>>>>>> Stashed changes
     const { data: validationResult, error: validationError } = await supabase.rpc(
       "validar_y_registrar_voto",
       {
@@ -177,6 +182,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+<<<<<<< Updated upstream
     if (!validationResult.success) {
       const isDuplicate = validationResult.error === 'ALREADY_VOTED';
       const isDniDuplicate = validationResult.error === 'ALREADY_VOTED_DNI';
@@ -189,6 +195,25 @@ Deno.serve(async (req: Request) => {
           success: false,
           message: validationResult.message || "No se pudo procesar tu voto",
           error: validationResult.error,
+=======
+    // La RPC 'validar_y_registrar_voto' ya inserta el voto si todo está bien.
+    // Retorna: { success: boolean, voto_id: uuid, trust_score: number, es_sospechoso: boolean, resultado: string, error?: string, message?: string }
+
+    if (!validationResult.success) {
+      // Casos de error controlados (IP bloqueada, double voting prevention inside logic, etc)
+      /*
+        El RPC retorna jsonb_build_object(
+           'success', false,
+           'error', 'IP_BLOQUEADA', ...
+         )
+      */
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: validationResult.message || "No se pudo registrar el voto",
+          error: validationResult.error,
+          trust_score: validationResult.trust_score,
+>>>>>>> Stashed changes
         }),
         {
           status: finalStatus,
@@ -197,7 +222,14 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+<<<<<<< Updated upstream
     if (validationResult.requiere_revision) {
+=======
+    // Success case
+    // validationResult.resultado ('APROBADO', 'EN_REVISION', 'PENDIENTE')
+
+    if (validationResult.resultado === 'EN_REVISION' || validationResult.es_sospechoso) {
+>>>>>>> Stashed changes
       return new Response(
         JSON.stringify({
           success: true,
@@ -213,6 +245,10 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+<<<<<<< Updated upstream
+=======
+    // APROBADO
+>>>>>>> Stashed changes
     return new Response(
       JSON.stringify({
         success: true,
@@ -221,6 +257,7 @@ Deno.serve(async (req: Request) => {
         resultado: validationResult.resultado,
         trust_score: trustScore,
         recaptcha_score: recaptchaScore,
+        voto_id: validationResult.voto_id
       }),
       {
         status: 200,
