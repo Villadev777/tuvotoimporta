@@ -201,9 +201,13 @@ export default function App() {
     const res = 11 - (total % 11);
     let calculatedDigit = res === 10 ? 'K' : res === 11 ? '0' : res.toString();
 
+    console.log('DNI Validation:', { dni, total, res, calculatedDigit, inputDigit: dniDigit });
+
     if (dni.length !== 8 || calculatedDigit !== dniDigit) {
-      alert('El DNI o el dígito verificador es incorrecto.\nPor favor verifica tu documento.');
-      return;
+      const proceder = window.confirm(
+        `El dígito verificador calculado (${calculatedDigit}) no coincide con el ingresado (${dniDigit}).\n\n¿Es correcto tu DNI? Si estás seguro, haz clic en Aceptar para continuar.`
+      );
+      if (!proceder) return;
     }
 
     try {
